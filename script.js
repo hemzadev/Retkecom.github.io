@@ -5,6 +5,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const closeBtn = document.querySelector(".close-btn")
     const modalBtn = document.querySelector(".modal-btn")
     const moneyContainer = document.getElementById("money-container")
+    const contactLink = document.getElementById("contact-link")
+    const contactPopup = document.getElementById("contact-popup")
+    const closePopup = document.querySelector(".close-popup")
   
     // Create floating money elements
     function createMoneyElements() {
@@ -12,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
       moneyContainer.innerHTML = ""
   
       // Create new money elements
-      for (let i = 0; i < 15; i++) {
+      for (let i = 0; i < 10; i++) {
         createMoneyElement()
       }
     }
@@ -117,7 +120,7 @@ document.addEventListener("DOMContentLoaded", () => {
   
     // Money celebration effect
     function celebrateWithMoney() {
-      for (let i = 0; i < 30; i++) {
+      for (let i = 0; i < 20; i++) {
         setTimeout(() => {
           const money = document.createElement("div")
           money.className = "money-celebration"
@@ -181,6 +184,24 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
   
+    // Contact popup
+    contactLink.addEventListener("click", (e) => {
+      e.preventDefault()
+      contactPopup.classList.add("show")
+    })
+  
+    // Close contact popup
+    closePopup.addEventListener("click", () => {
+      contactPopup.classList.remove("show")
+    })
+  
+    // Close contact popup when clicking outside
+    window.addEventListener("click", (e) => {
+      if (e.target === contactPopup) {
+        contactPopup.classList.remove("show")
+      }
+    })
+  
     // Close modal
     function closeModal() {
       modal.classList.remove("show")
@@ -196,53 +217,21 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     })
   
-    // Smooth scroll for navigation links
-    document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-      anchor.addEventListener("click", function (e) {
+    // Social media follow buttons
+    const followButtons = document.querySelectorAll(".follow-btn")
+    followButtons.forEach((button) => {
+      button.addEventListener("click", function (e) {
         e.preventDefault()
+        e.stopPropagation()
   
-        const targetId = this.getAttribute("href")
-        if (targetId === "#") return
-  
-        const targetElement = document.querySelector(targetId)
-        if (targetElement) {
-          targetElement.scrollIntoView({
-            behavior: "smooth",
-            block: "start",
-          })
+        const currentText = this.textContent
+        if (currentText === "Follow") {
+          this.textContent = "Following"
+          this.style.backgroundColor = "#0e9d3c"
+        } else {
+          this.textContent = "Follow"
+          this.style.backgroundColor = "#1db954"
         }
-      })
-    })
-  
-    // Intersection Observer for scroll animations
-    const observerOptions = {
-      threshold: 0.1,
-      rootMargin: "0px 0px -50px 0px",
-    }
-  
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("animate-in")
-          observer.unobserve(entry.target)
-        }
-      })
-    }, observerOptions)
-  
-    // Observe elements with animation classes
-    document.querySelectorAll(".hero, .card, .testimonial, .features, .feature").forEach((element) => {
-      observer.observe(element)
-    })
-  
-    // Add hover effect to form inputs
-    const formInputs = document.querySelectorAll("input, select")
-    formInputs.forEach((input) => {
-      input.addEventListener("focus", () => {
-        input.parentElement.classList.add("focused")
-      })
-  
-      input.addEventListener("blur", () => {
-        input.parentElement.classList.remove("focused")
       })
     })
   
@@ -253,13 +242,13 @@ document.addEventListener("DOMContentLoaded", () => {
   
       const heroContent = document.querySelector(".hero-content")
       if (heroContent) {
-        heroContent.style.transform = `translate(${mouseX * -20}px, ${mouseY * -20}px)`
+        heroContent.style.transform = `translate(${mouseX * -10}px, ${mouseY * -10}px)`
       }
   
       const features = document.querySelectorAll(".feature")
       features.forEach((feature, index) => {
-        const offsetX = mouseX * (10 + index * 5)
-        const offsetY = mouseY * (10 + index * 5)
+        const offsetX = mouseX * (5 + index * 3)
+        const offsetY = mouseY * (5 + index * 3)
         feature.style.transform = `translate(${offsetX}px, ${offsetY}px)`
       })
     })
